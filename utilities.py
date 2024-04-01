@@ -78,12 +78,10 @@ class CustomFKfilterLayer(tf.keras.layers.Layer):
         self.compute_inverse = compute_inverse
 
     def build(self, input_shape):
-        # No need to define w in the build method
-        input_shape = input_shape
-    
-    def call(self, input_tx):
         if self.compute_inverse:
             self.weight = 1.0 / self.weight
+    
+    def call(self, input_tx):
 
         input_tx_t_AtTheEnd = tf.transpose(input_tx, perm=[0, 3, 2, 1])
         fk1 = tf.signal.fftshift(tf.signal.rfft2d(input_tx_t_AtTheEnd), axes=2)
