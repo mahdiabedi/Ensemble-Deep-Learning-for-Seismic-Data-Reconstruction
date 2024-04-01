@@ -178,8 +178,8 @@ def fit(train_dataset, epochs, Augment={}, numofmasks=20):
                 v1 = np.zeros((nbatch, sc, 1))
                 for i in range(0, nbatch):
                     index_center = np.random.randint(low=1, high=sc, dtype=int)
-                    indices = range(max(0, index_center - numofmasks[0] // 2),
-                                    min(sc, index_center + numofmasks[0] // 2))
+                    indices = range(max(0, index_center - numofmasks // 2),
+                                    min(sc, index_center + numofmasks // 2))
                     v1[i, indices] = 1
 
                 v1 = tf.constant(v1, dtype=tf.float32)
@@ -199,7 +199,7 @@ def fit(train_dataset, epochs, Augment={}, numofmasks=20):
                 loss_b.append(loss_b0)
 
                 loss_total.append(loss_total0)
-
+            print('.', end='', flush=True)
         # Compute epoch losses
         block_a_loss = tf.reduce_mean(loss_a)
         block_b_loss = tf.reduce_mean(loss_b)
@@ -233,7 +233,7 @@ def fit(train_dataset, epochs, Augment={}, numofmasks=20):
 # %%
 print(sh)
 BUFFER_SIZE = sh[0] // 2
-BATCH_SIZE = 32
+BATCH_SIZE = 8
 train_dataset = tf.data.Dataset.from_tensor_slices(X_train_withmissing)
 train_dataset = train_dataset.shuffle(BUFFER_SIZE, seed=0, reshuffle_each_iteration=True).batch(BATCH_SIZE)
 
